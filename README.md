@@ -1,2 +1,4 @@
 # gtd
-A Sample GTD Page by PHP
+A Simple GTD Page by PHP
+
+No Database, just text file.
