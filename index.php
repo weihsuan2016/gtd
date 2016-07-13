@@ -74,7 +74,7 @@ table {
 
 textarea {
 	margin: 0px; 
-	padding: 0px; 
+	padding: 5px; 
 	border-style: solid; 
 	border-width: 1px; 
 	border-color:#fa7d3c;
@@ -139,54 +139,38 @@ $msgsteam=array();
 while (($data=fgetcsv($fh))!==FALSE) {
 	$row++;
 	//echo "<tr><td>".$data[0]."</td><td>".$data[1]."</td></tr>";
-	$msgsteam[$row*2-1]=$data[0];
-	$msgsteam[$row*2]=$data[1];
+	$msgsteam[$row*3-2]=$data[0];
+	$msgsteam[$row*3-1]=$data[1];
+	$msgsteam[$row*3]=$data[2];
 	//如果多列，需使用count($data)计算出列数
 }
 
 for ($i=$row;$i>0;$i--) { 
-	//echo "<tr><td>".$msgsteam[$i*2-1]."</td><td>".$msgsteam[$i*2]."</td></tr>";
-	// echo "<div class='msgdiv'><table class='msgtable'>";
-	// echo "<tr><td class='td-del'>";
-	// echo "<a href='./action.php?op=d&row=".$i."'>x</a>";
-	// echo "</td></tr>";
-	// echo "<tr><td style='color:gray;font-size:10px;line-height:30px;vertical-align:top;'>".$msgsteam[$i*2-1]."</td></tr>";
-	// echo "<tr><td style='text-indent:2em;'>".$msgsteam[$i*2]."</td></tr>";
-	// echo "</table></div>";
+
+	if($msgsteam[$i*3-2]==0)
+	{
 	echo "<div class='msgdiv'><table class='msgtable'>";
-	echo "<tr><td style='color:gray;font-size:10px;line-height:30px;vertical-align:top;'>".$msgsteam[$i*2-1]."</td>";
+	echo "<tr><td style='color:gray;font-size:10px;line-height:30px;vertical-align:top;'>".$msgsteam[$i*3-1]."</td>";
 	echo "<td class='td-del'><a href='./action.php?op=d&row=".$i."'>完成</a></td></tr>";
-	echo "<tr><td colspan='2'>".$msgsteam[$i*2]."</td></tr>";
-	echo "</table></div>";
-}
-
-fclose($fh);
-
-$fh_done = fopen("./done.txt", 'r');
-$row2=0;
-$msgsteam2=array();
-
-while (($data=fgetcsv($fh_done))!==FALSE) {
-	$row2++;
-	//echo "<tr><td>".$data[0]."</td><td>".$data[1]."</td></tr>";
-	$msgsteam2[$row2*2-1]=$data[0];
-	$msgsteam2[$row2*2]=$data[1];
-	//如果多列，需使用count($data)计算出列数
-}
-
-
-
-for ($i=$row2;$i>0;$i--) {  
-	echo "<div class='msgdiv'><table class='msgtable'>";
-	echo "<tr><td style='color:gray;font-size:10px;line-height:30px;vertical-align:top;'>".$msgsteam2[$i*2-1]."</td>";
-	echo "<td style='color:red; text-align:right;font-size:12px;'>已完成</td></tr>";
-	echo "<tr><td colspan='2'>".$msgsteam2[$i*2]."</td></tr>";
+	echo "<tr><td colspan='2'>".$msgsteam[$i*3]."</td></tr>";
 	echo "</table></div>";
 	}
-fclose($fh_done);
+}
+
+for ($i=$row;$i>0;$i--) { 
+
+	if($msgsteam[$i*3-2]!=0)
+	{  
+	echo "<div class='msgdiv'><table class='msgtable'>";
+	echo "<tr><td style='color:gray;font-size:10px;line-height:30px;vertical-align:top;'>".$msgsteam[$i*3-1]."</td>";
+	echo "<td style='color:red; text-align:right;font-size:12px;'>已完成</td></tr>";
+	echo "<tr><td colspan='2'>".$msgsteam[$i*3]."</td></tr>";
+	echo "</table></div>";
+	}
+}
 
 
-
+fclose($fh);
 
 
  ?>
