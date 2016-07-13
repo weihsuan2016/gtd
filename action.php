@@ -27,7 +27,7 @@ if ($operation=='w') {
 	$msg=str_replace($order, '，', $msg);
 
 	$fh = fopen("./msg.txt", 'a');
-	fwrite($fh, date('Y-m-d H:i').",".$msg."\n");
+	fwrite($fh, "0,".date('Y-m-d H:i').",".$msg."\n");
 	fclose($fh);
 //	echo "留言成功,现在返回";
 	header('Location: '.$uri.'/gtd/');
@@ -42,31 +42,29 @@ if ($operation=='w') {
 
 	while (($data=fgetcsv($fh))!==FALSE) {
 		$row++;	
-		$msgsteam[$row*2-1]=$data[0];
-		$msgsteam[$row*2]=$data[1];	
+		$msgsteam[$row*3-2]=$data[0];
+		$msgsteam[$row*3-1]=$data[1];
+		$msgsteam[$row*3]=$data[2];
 		}
 	fclose($fh);
 
 echo "一共有".$row."行<br/>";
-echo "需要删除第".$rdrownum."行<br/>";
+echo "需要完成的是第".$rdrownum."行<br/>";
 echo "msgsteam数组有".sizeof($msgsteam)."个成员<br/>";
 
 $fh = fopen("./msg.txt", 'w');
-$fh2 = fopen("./done.txt",'a');
 
 	for($i=1;$i<=$row;$i++) {
 		if($rdrownum!=$i) {
-			//echo $msgsteam[$i].",".$msgsteam[$i+1]."<br>";
-			fwrite($fh, $msgsteam[$i*2-1].",".$msgsteam[$i*2]."\n");
+			fwrite($fh, $msgsteam[$i*3-2].",".$msgsteam[$i*3-1].",".$msgsteam[$i*3]."\n");
 		}
 		else {
-			fwrite($fh2,$msgsteam[$i*2-1].",".$msgsteam[$i*2]."\n");
+			fwrite($fh,"1,".$msgsteam[$i*3-1].",".$msgsteam[$i*3]."\n");
 		}
 
 	}
 
 	fclose($fh);
-	fclose($fh2);
 	header('Location: '.$uri.'/gtd/');
 
 	}
